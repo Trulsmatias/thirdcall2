@@ -21,13 +21,17 @@ namespace Company.Function
             ServiceBusReceivedMessage message,
             ServiceBusMessageActions messageActions)
         {
-            _logger.LogInformation("Message ID: {id}", message.MessageId);
-            _logger.LogInformation("Message Body: {body}", message.Body);
-            _logger.LogInformation("Message Content-Type: {contentType}", message.ContentType);
-            
+            try {
+                _logger.LogInformation("Message ID: {id}", message.MessageId);
+                _logger.LogInformation("Message Body: {body}", message.Body);
+                _logger.LogInformation("Message Content-Type: {contentType}", message.ContentType);
 
-            // Complete the message
-            await messageActions.CompleteMessageAsync(message);
+                // Complete the message
+                await messageActions.CompleteMessageAsync(message);
+            } catch (Exception e) {
+                _logger.LogInformation("Failed with ex: {ex}", e);
+            }
+            
         }
     }
 }
